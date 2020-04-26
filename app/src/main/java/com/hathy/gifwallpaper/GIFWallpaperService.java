@@ -1,7 +1,9 @@
 package com.hathy.gifwallpaper;
 
+import android.annotation.TargetApi;
 import android.graphics.Canvas;
 import android.graphics.Movie;
+import android.os.Build;
 import android.os.Handler;
 import android.service.wallpaper.WallpaperService;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.SurfaceHolder;
 
 import java.io.IOException;
 
+@TargetApi(Build.VERSION_CODES.ECLAIR_MR1)
 public class GIFWallpaperService extends WallpaperService {
 
 	@Override
@@ -24,16 +27,15 @@ public class GIFWallpaperService extends WallpaperService {
 		}
 	}
 
+    @TargetApi(Build.VERSION_CODES.ECLAIR_MR1)
     private class GIFWallpaperEngine extends WallpaperService.Engine {
-
-        private final int frameDuration = 20;
 
         private SurfaceHolder holder;
         private Movie movie;
         private boolean visible;
         private Handler handler;
 
-        public GIFWallpaperEngine(Movie movie) {
+        GIFWallpaperEngine(Movie movie) {
             this.movie = movie;
             handler = new Handler();
         }
@@ -64,6 +66,7 @@ public class GIFWallpaperService extends WallpaperService {
                 movie.setTime((int) (System.currentTimeMillis() % movie.duration()));
 
                 handler.removeCallbacks(drawGIF);
+                int frameDuration = 20;
                 handler.postDelayed(drawGIF, frameDuration);
             }
         }
